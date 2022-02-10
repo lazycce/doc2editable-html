@@ -12,7 +12,7 @@ class HomeController extends Controller {
   }
 
   async download() {
-    const filePath = path.resolve(this.app.config.static.dir, '1.doc');
+    const filePath = path.resolve(this.app.config.static.dir, '3.doc');
     this.ctx.attachment('1.doc');
     this.ctx.set('Content-Type', 'application/octet-stream;charset=UTF-8');
     this.ctx.body = fs.createReadStream(filePath);

@@ -3,7 +3,7 @@
     <button @click="handleSubmit">获取值b1的值</button>
     <h1>doc2html</h1>
     <div class="doc-preview" >
-      <div v-html="html" />
+      <div class="doc-preview" v-html="html" />
     </div>
   </div>
 </template>
@@ -16,7 +16,6 @@ export default {
   },
   data() {
     return {
-      // contenteditable="true" // \{\{([\w*|\s*]*)}\}
       html: null
     }
   },
@@ -34,17 +33,15 @@ export default {
       keyAtrr.forEach(key => {
         console.log(doc.search(key))
         let docArr = doc.split("")
-        console.log(doc.slice(doc.search(key)-1, doc.search(key)))
         if(doc.slice(doc.search(key)-1, doc.search(key)) === '>') {
-          docArr.splice(doc.search(key) - 1, 0, ` contenteditable="true" id="${key.replace(/{{|}}|@/g, '')}"`)
+          docArr.splice(doc.search(key) - 1, 0, ` style="display:inline-block;min-width: 30px;border-bottom: 1px solid red" contenteditable="true" id="${key.replace(/{{|}}|@/g, '')}"`)
           doc = docArr.join('')
         } else {
-          docArr.splice(doc.search(key) - 1, 0, `<span contenteditable="true" id="${key.replace(/{{|}}|@/g, '')}">${key}</span>`)
+          docArr.splice(doc.search(key), 0, `<span style="display:inline-block;min-width: 30px;border-bottom: 1px solid red" contenteditable="true" id="${key.replace(/{{|}}|@/g, '')}">${key}</span>`)
           doc = docArr.join('')
           doc.replace('{{' + key + '}}', '')
         }
       })
-      console.log('after', doc)
       this.html = doc
     })
   },
@@ -53,7 +50,6 @@ export default {
       return new Promise((resolve, reject) => {
         try {
           const file = content.data
-          console.log(file)
           const reader = new FileReader()
           reader.onloadend = async () => {
             const arrayBuffer = reader.result
@@ -73,20 +69,39 @@ export default {
         }).catch(e => reject(e))
       })
     },
-    replaceKey() {
-    },
-    handleClick(e) {
-      console.log(e)
-    },
     handleSubmit () {
-      const dom = document.getElementById('b1')
+      const dom = document.getElementById('a01')
       alert(dom.innerText)
     }
   }
 }
 </script>
-<style >
-td {
-  border: 1px solid red;
+<style>
+.doc-preview {
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.doc-preview table {
+  margin-bottom: 20px;
+}
+.doc-preview img {
+  max-width: 150px;
+}
+.doc-preview tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+.doc-preview td,
+.doc-preview th {
+  border: 1px solid #dfe2e5;
+  padding: .6em 1em;
+}
+.doc-preview tr {
+  border-top: 1px solid #dfe2e5;
+}
+.doc-preview table {
+  border-collapse: collapse;
 }
 </style>

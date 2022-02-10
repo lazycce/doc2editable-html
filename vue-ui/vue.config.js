@@ -21,6 +21,13 @@ module.exports = {
     },
     disableHostCheck: true
   },
+  css: {
+    loaderOptions: {
+      sass: {
+        implementation: require('sass'), // This line must in sass option
+      }
+    }
+  },
   configureWebpack: {
     resolve: {
       alias: {
